@@ -16,56 +16,24 @@ const slides = [
 		"tagLine":"Autocollants <span>avec découpe laser sur mesure</span>"
 	}
 ]
-/*
-const bannerImage = document.querySelector (".banner-img");
-const bannerText = document.querySelector (".text");
-const dots = document.querySelectorAll(".dot");
-
-const arleft = document.querySelector(".arrow.arrow_left");
-const arright = document.querySelector(".arrow.arrow_right");
-
-let index = 0; 
-function getslide () {
-	bannerImage.src=`./assets/images/slideshow/${slides[index].image}`
-	bannerText.innerHTML=slides[index].tagLine;
-	dots.forEach(dots=>dots.classList.remove("dot_selected"));
-	dots[index].classList.add('dot_selected');
-};
-getslide()
 
 
-function changeSlide(direction){
-	index=(index + direction + slides.length) % slides.length;
-	getslide();
-}
-
-function carrousselSlide(){
-	arleft.addEventListener("click",()=>changeSlide(-1));
-	arright.addEventListener("click",()=>changeSlide(1));
-	
-}
-carrousselSlide()
-*/
+let dots = document.querySelector(".dots"); // J'ai créee une variable dots,je récupère tout les éléments de la class dots
+let bannerImage = document.querySelector (".banner-img");// J'ai créee une variable bannerImage,je récupère tout les éléments de la class banner-img
+let tagLineDisplay = document.querySelector(".tagLine");// J'ai créee une variable tagLineDisplay,je récupère tout les éléments de la class tagLine
+let currentSlideIndex = 0; // J'ai créee une variable currentSlideIndex initialisée à zéro 
 
 
- 
-
-let dots = document.querySelector(".dots");
-let bannerImage = document.querySelector (".banner-img");
-let tagLineDisplay = document.querySelector(".tagLine"); 
-let currentSlideIndex = 0;
-
-
-for(let i=0;i<slides.length;i++){
+for(let i=0;i<slides.length;i++){ // on crée la boucle for 
 	console.log(slides[i])
-	let dot = document.createElement("div");
-	dot.classList.add("dot");
-	if(i === currentSlideIndex) {
-	   dot.classList.add("active");
+	let dot = document.createElement("div"); // J'ai créee une div vide
+	dot.classList.add("dot"); //j'ai ajouté la class dot 
+	if(i === 0) { 
+	   dot.classList.add("dot_selected"); // on a ajouté à dot la class dot selected
 	}
-	dots.appendChild(dot);
+	dots.appendChild(dot); // on voudrait qu'il s'affiche dans la div dots , on à dots qu'on ajoute à cet enfant dot
 	}
-	updateSlide()
+	
 
 
 	
@@ -77,32 +45,46 @@ for(let i=0;i<slides.length;i++){
 	
 
 	function nextSlide() {
-		currentSlideIndex = (currentSlideIndex + 1) % slides.length; // Pour aller à l'image suivante
-		updateImage();
+		currentSlideIndex = (currentSlideIndex + 1) % slides.length; // c'est pour mettre en place le carroussel lorsqu'on click sur suivant
+		updateImage();// On récupère la fonction updateImage afin de générer dans le carroussel les images
 	}
 
 	function prevSlide() {
-		currentSlideIndex = (currentSlideIndex - 1 + slides.length) % slides.length; // Pour aller à l'image précédente
-		updateImage();
+		currentSlideIndex = (currentSlideIndex - 1 + slides.length) % slides.length; //c'est pour mettre en place le carroussel lorsqu'on click sur précédent
+		updateImage(); //On récupère la fonction updateImage afin de générer dans le carroussel les images
+	}
+	function updateDot () {
+		const dots = document.getElementsByClassName("dot"); //on récupère tout les éléments de la classe dot
+		for (let i=0;i<slides.length;i++){  // on crée une boucle qui va se répéter , si l'élément dots
+	    if (i===currentSlideIndex){ // si i est égal à currentSlideIndex
+			dots[i].classList.add("dot_selected"); // on ajoute dot selected
+		}
+		else{
+			dots[i].classList.remove("dot_selected"); // sinon on enlève le dot selected 
+		} 
+		}
+
 	}
 
-	const arleft= document.getElementById("arleft")
+	const arleft= document.getElementById("arleft") // J'ai crée une variable nommée arleft , elle récupère l'ID arleft
 
-	arleft.addEventListener("click", () =>{
-	prevSlide(); 
+	arleft.addEventListener("click", () =>{ //On nomme l'évènement qui va se passer au click,on récupère les fonctions 
+	prevSlide(); // On récupère la fonction prevSlide, elle sera utilisée ici
+	updateDot ();// On récupère la fonction updateDot, elle sera utilisée ici 
 	console.log ("Vous avez cliqué sur la flèche gauche")
 
 	} )
 
-	const arright= document.getElementById("arright")
+	const arright= document.getElementById("arright") // J'ai crée une variable nommée arright , elle récupère l'ID arright
 
-	arright.addEventListener("click", () =>{
-	nextSlide(); 
+	arright.addEventListener("click", () =>{//On nomme l'évènement qui va se passer au click,on récupère les fonctions
+	nextSlide();  // On récupère la fonction nextSlide, elle sera utilisée ici
+	updateDot (); // On récupère la fonction updateDot, elle sera utilisée ici
 	console.log ("Vous avez cliqué sur la flèche droite")
 
 	} )
 
-	updateImage();
+	
 
 
 
