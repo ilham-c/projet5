@@ -23,41 +23,38 @@ let bannerImage = document.querySelector(".banner-img");
 let tagLineDisplay = document.querySelector(".tagLine");
 let currentSlideIndex = 0;
 
-for (let i = 0; i < slides.length; i++) {
-  console.log(slides[i]);
+slides.forEach((slide, i) => {
   let dot = document.createElement("div");
   dot.classList.add("dot");
   if (i === 0) {
     dot.classList.add("dot_selected");
   }
   dots.appendChild(dot);
-}
+});
 
-function updateImage() {
-  bannerImage.src = `./assets/images/slideshow/${slides[currentSlideIndex].image}`;
-  tagLineDisplay.innerHTML = slides[currentSlideIndex].tagLine;
-}
+const updateImage = () => {
+  const { image, tagLine } = slides[currentSlideIndex];
+  bannerImage.src = `./assets/images/slideshow/${image}`;
+  tagLineDisplay.innerHTML = tagLine;
+};
 
-function nextSlide() {
+const nextSlide = () => {
   currentSlideIndex = (currentSlideIndex + 1) % slides.length;
   updateImage();
-}
+};
 
-function prevSlide() {
+const prevSlide = () => {
   currentSlideIndex = (currentSlideIndex - 1 + slides.length) % slides.length;
   updateImage();
-}
-function updateDot() {
+};
+
+const updateDot = () => {
   const dots = document.getElementsByClassName("dot");
 
-  for (let i = 0; i < slides.length; i++) {
-    if (i === currentSlideIndex) {
-      dots[i].classList.add("dot_selected");
-    } else {
-      dots[i].classList.remove("dot_selected");
-    }
-  }
-}
+  Array.from(dots).forEach((dot, i) => {
+    dot.classList.toggle("dot_selected", i === currentSlideIndex);
+  });
+};
 
 const arrowLeft = document.getElementById("arrowLeft");
 
